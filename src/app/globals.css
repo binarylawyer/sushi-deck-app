@@ -1,0 +1,52 @@
+:root {
+  --bg: #0f1420;
+  --panel: #161c28;
+  --line: #2a3444;
+  --text: #e6ebf2;
+  --muted: #8b97a8;
+  --accent: #c99d56;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+
+.wrap { max-width: 1000px; margin: 0 auto; padding: 48px 24px; }
+
+.masthead { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 32px; }
+.masthead h1 { font-size: 22px; margin: 0; letter-spacing: -0.01em; }
+.masthead .sub { color: var(--muted); font-size: 13px; }
+.masthead a.admin { color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+
+.card { border: 1px solid var(--line); border-radius: 4px; background: var(--panel); padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+.card h3 { margin: 0; font-size: 15px; }
+.card .meta { color: var(--muted); font-size: 12px; font-family: ui-monospace, Menlo, monospace; }
+.card .actions { display: flex; gap: 12px; margin-top: 4px; }
+.card .actions a { color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600; }
+
+.empty { color: var(--muted); border: 1px dashed var(--line); border-radius: 4px; padding: 40px; text-align: center; }
+.notice { color: var(--muted); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 4px; padding: 16px 18px; font-size: 13px; line-height: 1.5; }
+
+.btn { background: var(--accent); color: #0f1420; border: 0; padding: 9px 16px; font-weight: 700; font-size: 13px; border-radius: 3px; cursor: pointer; text-decoration: none; display: inline-block; }
+.btn.ghost { background: var(--panel); color: var(--text); border: 1px solid var(--line); }
+.btn:disabled { opacity: 0.6; cursor: default; }
+
+.field { display: grid; gap: 6px; margin-bottom: 14px; }
+.field label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.field textarea, .field input { background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 3px; padding: 9px 11px; font: inherit; font-size: 14px; resize: vertical; }
+.field textarea:focus, .field input:focus { outline: none; border-color: var(--accent); }
+
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.del { background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 13px; }
+.del:hover { color: #e88; }

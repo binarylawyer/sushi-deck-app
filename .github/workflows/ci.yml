@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # The kit (@binarylawyer/sushi-deck) is installed as a git dependency.
+      # npm resolves GitHub git deps over SSH by default, which fails on CI
+      # runners (no key). Route every git URL form to HTTPS. If KIT_TOKEN (a PAT
+      # with read access to the private kit) is set, authenticate; otherwise use
+      # anonymous HTTPS (works when the kit repo is public).
+      - name: Route git dependencies over HTTPS
+        env:
+          KIT_TOKEN: ${{ secrets.KIT_TOKEN }}
+        run: |
+          if [ -n "$KIT_TOKEN" ]; then
+            TARGET="https://x-access-token:${KIT_TOKEN}@github.com/"
+          else
+            TARGET="https://github.com/"
+          fi
+          git config --global url."$TARGET".insteadOf "https://github.com/"
+          git config --global url."$TARGET".insteadOf "ssh://git@github.com/"
+          git config --global url."$TARGET".insteadOf "git@github.com:"
+      - run: npm install
+      - run: npm run typecheck
+      - run: npm run build
