@@ -32,8 +32,8 @@ export default async function Home() {
 
       {error ? (
         <div className="notice">
-          Couldn’t load decks: {error}. Set <code>SUPABASE_URL</code> and{" "}
-          <code>SUPABASE_SERVICE_ROLE_KEY</code> (see <code>.env.example</code>).
+          Couldn’t load decks: {error} (see <code>.env.example</code> for the
+          required configuration).
         </div>
       ) : decks.length === 0 ? (
         <div className="empty">

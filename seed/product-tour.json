@@ -2,7 +2,7 @@
   "v": 1,
   "slug": "product-tour",
   "title": "Sushi Deck — Product Tour",
-  "summary": "A sample deck that ships with the backend so there is something to present on day one. Neutral content — no client data.",
+  "summary": "A showcase deck that exercises every block type and slide feature Sushi Deck supports. Neutral content — no client data.",
   "slides": [
     {
       "id": "cover",
@@ -10,41 +10,99 @@
       "kind": "cover",
       "eyebrow": "Sushi Deck",
       "title": "Decks as *data*, served by one API",
-      "sub": "A portable presentation engine — authored as JSON, rendered by the kit, stored once.",
+      "sub": "A portable presentation engine — authored as JSON, rendered by the kit, stored once. This deck demos *every* block.",
       "meta": [
-        { "dt": "Format", "dd": "DeckJson (v1)" },
-        { "dt": "Backend", "dd": "One HTTP API" }
+        { "dt": "Format", "dd": "DeckJson v1" },
+        { "dt": "Blocks", "dd": "9 types" },
+        { "dt": "Modes", "dd": "present · scroll · PDF" }
       ]
     },
     {
-      "id": "what",
-      "label": "What it is",
+      "id": "text",
+      "label": "Text blocks",
       "kind": "slide",
       "mark": { "label": "Sushi Deck", "sup": "①" },
       "idxPrefix": "Product tour · ",
       "blocks": [
-        { "block": "opener", "eyebrow": "Overview", "headline": "One backend, *many* consumers", "lede": "The library holds the deck logic; the API tier owns the database and the model; every front-end is a thin consumer." },
-        { "block": "bullets", "items": [
-          "*Author* decks as JSON — editable by non-developers.",
-          "*Generate* a first draft from a brief with Claude.",
-          "*Present* / scroll / print-to-PDF from the same source.",
-          "*Consume* over HTTP with a bearer key scoped to an owner."
+        { "block": "opener", "eyebrow": "Opener + paragraph + bullets", "headline": "Words, with *emphasis*", "lede": "The *opener* sets up a slide with an eyebrow, a headline, and an optional lede." },
+        { "block": "paragraph", "text": "A *paragraph* is free-flowing prose. Inline emphasis uses *asterisks*, which render as italic-accent — the same treatment everywhere the kit draws rich text." },
+        { "block": "bullets", "marker": "→", "items": [
+          "Bullets take a custom *marker* (this list uses an arrow).",
+          "Each item is rich text, so *emphasis* works here too.",
+          "Use them for scannable, parallel points."
         ] }
       ]
     },
     {
-      "id": "shape",
-      "label": "Architecture",
+      "id": "data",
+      "label": "Data blocks",
       "kind": "slide",
+      "mark": { "label": "Sushi Deck", "sup": "②" },
       "idxPrefix": "Product tour · ",
       "blocks": [
-        { "block": "opener", "eyebrow": "Option A", "headline": "Three tiers, one source of truth" },
+        { "block": "opener", "eyebrow": "Statband + barchart", "headline": "Numbers that *land*" },
         { "block": "statband", "stats": [
-          { "value": "1", "label": "HTTP API", "sub": "the backend tier" },
-          { "value": "2", "label": "Front-ends", "sub": "pure consumers" },
-          { "value": "0", "label": "Direct-DB paths", "sub": "no front-end DB access" }
+          { "value": "9", "label": "Block types", "sub": "all shown here" },
+          { "value": "2", "label": "Slide kinds", "sub": "cover · content" },
+          { "value": "1", "label": "HTTP API", "sub": "one source of truth" }
         ] },
-        { "block": "callout", "text": "Both front-ends — the standalone app and moye-law-os — consume the *same* API. Neither touches Supabase or the LLM directly.", "tone": "gold" }
+        { "block": "barchart", "unit": "%", "height": 180, "data": [
+          { "label": "Author", "value": 40 },
+          { "label": "Generate", "value": 25 },
+          { "label": "Present", "value": 20 },
+          { "label": "Reuse", "value": 15, "hi": true }
+        ] }
+      ]
+    },
+    {
+      "id": "table",
+      "label": "Table block",
+      "kind": "slide",
+      "mark": { "label": "Sushi Deck", "sup": "③" },
+      "idxPrefix": "Product tour · ",
+      "blocks": [
+        { "block": "opener", "eyebrow": "Datatable", "headline": "Rows and columns, *aligned*" },
+        { "block": "datatable",
+          "head": ["Block", "Purpose", "Uses"],
+          "align": ["left", "left", "right"],
+          "rows": [
+            ["opener", "Slide lead-in", "1/slide"],
+            ["statband", "Headline metrics", "3–4"],
+            ["barchart", "Simple comparisons", "1"],
+            ["datatable", "Structured detail", "1"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "accent",
+      "label": "Accent blocks",
+      "kind": "slide",
+      "mark": { "label": "Sushi Deck", "sup": "④" },
+      "idxPrefix": "Product tour · ",
+      "blocks": [
+        { "block": "opener", "eyebrow": "Callout + quote + spacer", "headline": "Emphasis, two *tones*" },
+        { "block": "callout", "tone": "gold", "text": "A *gold* callout draws the eye to the thing that matters most on the slide." },
+        { "block": "callout", "tone": "wax", "text": "A *wax* callout carries a cautionary or secondary note." },
+        { "block": "spacer", "size": 24 },
+        { "block": "quote", "text": "Everything a recipient sees is rendered from the same DeckJson you edit.", "cite": "Sushi Deck" }
+      ]
+    },
+    {
+      "id": "modes",
+      "label": "Runtime + slide options",
+      "kind": "slide",
+      "mark": { "label": "Sushi Deck", "sup": "⑤" },
+      "idxPrefix": "Product tour · ",
+      "disclaimer": "This slide sets a mark, an index prefix, and this disclaimer — all optional per-slide fields.",
+      "blocks": [
+        { "block": "opener", "eyebrow": "One source, many surfaces", "headline": "Present, scroll, or *print*" },
+        { "block": "bullets", "items": [
+          "*Present* — full-screen deck runtime with keyboard nav + overview + presenter view.",
+          "*Scroll* — the same slides as a long-form scrollable page.",
+          "*Print → PDF* — export the exact rendered output.",
+          "*Theme* — brand tokens restyle every block (moye renders these in Mondrian navy + gold)."
+        ] }
       ]
     },
     {
@@ -52,15 +110,11 @@
       "label": "Getting started",
       "kind": "slide",
       "idxPrefix": "Product tour · ",
-      "disclaimer": "Sample deck — replace with your own via the admin editor.",
+      "disclaimer": "Sample deck — edit or replace it in the admin editor.",
       "blocks": [
-        { "block": "opener", "eyebrow": "Next", "headline": "Make it yours" },
-        { "block": "bullets", "items": [
-          "Open the admin editor and edit this deck, or create a new one.",
-          "Point a consumer at the API with a key that resolves to its owner.",
-          "Seed real content as DeckJson — decks stay owner-scoped and private."
-        ] },
-        { "block": "quote", "text": "Everything a recipient sees is rendered from the same DeckJson you edit.", "cite": "Sushi Deck" }
+        { "block": "opener", "eyebrow": "Next", "headline": "Make it *yours*" },
+        { "block": "paragraph", "text": "Open the admin editor to change this deck, generate a new one from a brief, or seed real content as DeckJson." },
+        { "block": "callout", "tone": "gold", "text": "Decks stay *owner-scoped* — each consumer only ever sees its own." }
       ]
     }
   ]

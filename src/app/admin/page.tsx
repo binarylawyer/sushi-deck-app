@@ -33,7 +33,8 @@ export default async function AdminPage() {
 
       {error ? (
         <div className="notice">
-          Couldn’t load decks: {error}. Check your Supabase env vars.
+          Couldn’t load decks: {error} (see <code>.env.example</code> for the
+          required configuration).
         </div>
       ) : (
         <AdminHome decks={decks} />
