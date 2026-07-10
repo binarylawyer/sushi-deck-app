@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { serverStore } from "@/lib/deck-api";
+import { getDeckClient } from "@/lib/deck-client";
 import { EditorClient } from "./EditorClient";
 
 export const dynamic = "force-dynamic";
@@ -9,7 +9,8 @@ type Ctx = { params: Promise<{ id: string }> };
 
 export default async function EditDeckPage({ params }: Ctx) {
   const { id } = await params;
-  const rec = await serverStore().get(id);
+  const client = getDeckClient();
+  const rec = client ? await client.get(id) : null;
   if (!rec) notFound();
 
   return (

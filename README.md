@@ -7,8 +7,14 @@ scroll · print-to-PDF) plus a gated **admin** editor. It consumes the portable
 this app is just wiring; the deck logic lives in the kit and is unit-tested
 there.
 
-It's the first of **two consumers** of one deck API: this app hosts it, and
-`moye-law-os` calls it over HTTP with a service key.
+It's the first of **two consumers** of one deck API: this app **hosts** the API
+(the backend tier), and both front-ends consume it over HTTP with a bearer key —
+`moye-law-os`, and this app's **own** front-end. Under the decided **Option A**
+architecture the app's pages/actions no longer touch Supabase or the LLM
+directly; they call the API through `src/lib/deck-client.ts`, exactly like moye.
+(The old in-process `serverStore()` direct-DB path was removed.) Configure
+`SUSHI_DECK_API_URL` + `SUSHI_DECK_API_KEY` for the app's self-consumption — see
+`.env.example`.
 
 ```
                      ┌──────────────── sushi-deck-app (this repo) ───────────────┐

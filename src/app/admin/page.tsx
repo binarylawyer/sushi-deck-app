@@ -1,17 +1,22 @@
 import Link from "next/link";
-import { serverStore } from "@/lib/deck-api";
+import { getDeckClient } from "@/lib/deck-client";
 import type { DeckListItem } from "@binarylawyer/sushi-deck/store";
 import { AdminHome } from "./AdminHome";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
+  const client = getDeckClient();
   let decks: DeckListItem[] = [];
   let error: string | null = null;
-  try {
-    decks = await serverStore().list();
-  } catch (e) {
-    error = e instanceof Error ? e.message : "Failed to load decks";
+  if (!client) {
+    error = "The deck API isn't configured (set SUSHI_DECK_API_URL and SUSHI_DECK_API_KEY).";
+  } else {
+    try {
+      decks = await client.list();
+    } catch (e) {
+      error = e instanceof Error ? e.message : `Failed to load decks: ${String(e)}`;
+    }
   }
 
   return (

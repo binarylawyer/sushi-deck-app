@@ -1,0 +1,67 @@
+{
+  "v": 1,
+  "slug": "product-tour",
+  "title": "Sushi Deck — Product Tour",
+  "summary": "A sample deck that ships with the backend so there is something to present on day one. Neutral content — no client data.",
+  "slides": [
+    {
+      "id": "cover",
+      "label": "Cover",
+      "kind": "cover",
+      "eyebrow": "Sushi Deck",
+      "title": "Decks as *data*, served by one API",
+      "sub": "A portable presentation engine — authored as JSON, rendered by the kit, stored once.",
+      "meta": [
+        { "dt": "Format", "dd": "DeckJson (v1)" },
+        { "dt": "Backend", "dd": "One HTTP API" }
+      ]
+    },
+    {
+      "id": "what",
+      "label": "What it is",
+      "kind": "slide",
+      "mark": { "label": "Sushi Deck", "sup": "①" },
+      "idxPrefix": "Product tour · ",
+      "blocks": [
+        { "block": "opener", "eyebrow": "Overview", "headline": "One backend, *many* consumers", "lede": "The library holds the deck logic; the API tier owns the database and the model; every front-end is a thin consumer." },
+        { "block": "bullets", "items": [
+          "*Author* decks as JSON — editable by non-developers.",
+          "*Generate* a first draft from a brief with Claude.",
+          "*Present* / scroll / print-to-PDF from the same source.",
+          "*Consume* over HTTP with a bearer key scoped to an owner."
+        ] }
+      ]
+    },
+    {
+      "id": "shape",
+      "label": "Architecture",
+      "kind": "slide",
+      "idxPrefix": "Product tour · ",
+      "blocks": [
+        { "block": "opener", "eyebrow": "Option A", "headline": "Three tiers, one source of truth" },
+        { "block": "statband", "stats": [
+          { "value": "1", "label": "HTTP API", "sub": "the backend tier" },
+          { "value": "2", "label": "Front-ends", "sub": "pure consumers" },
+          { "value": "0", "label": "Direct-DB paths", "sub": "no front-end DB access" }
+        ] },
+        { "block": "callout", "text": "Both front-ends — the standalone app and moye-law-os — consume the *same* API. Neither touches Supabase or the LLM directly.", "tone": "gold" }
+      ]
+    },
+    {
+      "id": "next",
+      "label": "Getting started",
+      "kind": "slide",
+      "idxPrefix": "Product tour · ",
+      "disclaimer": "Sample deck — replace with your own via the admin editor.",
+      "blocks": [
+        { "block": "opener", "eyebrow": "Next", "headline": "Make it yours" },
+        { "block": "bullets", "items": [
+          "Open the admin editor and edit this deck, or create a new one.",
+          "Point a consumer at the API with a key that resolves to its owner.",
+          "Seed real content as DeckJson — decks stay owner-scoped and private."
+        ] },
+        { "block": "quote", "text": "Everything a recipient sees is rendered from the same DeckJson you edit.", "cite": "Sushi Deck" }
+      ]
+    }
+  ]
+}

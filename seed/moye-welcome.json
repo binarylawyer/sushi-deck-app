@@ -1,0 +1,31 @@
+{
+  "v": 1,
+  "slug": "moye-welcome",
+  "title": "Moye Law · Presenting with Sushi Deck",
+  "summary": "A neutral sample deck for the firm's Sushi Deck surface. No client matter.",
+  "slides": [
+    {
+      "id": "cover",
+      "label": "Cover",
+      "kind": "cover",
+      "eyebrow": "Moye Law OS",
+      "title": "Firm decks, *one* source of truth",
+      "sub": "Authored as data, served by the Sushi Deck API, themed to Moye Mondrian."
+    },
+    {
+      "id": "how",
+      "label": "How it works",
+      "kind": "slide",
+      "idxPrefix": "Sushi Deck · ",
+      "blocks": [
+        { "block": "opener", "eyebrow": "Consumer", "headline": "Moye is a *pure consumer*", "lede": "The firm holds no deck database of its own — it calls the one API with a firm-scoped key." },
+        { "block": "bullets", "items": [
+          "Decks are *owner-scoped* — the firm only ever sees its own.",
+          "Present, scroll, or print — all from the same DeckJson.",
+          "Themed to the firm palette without hardcoding hex values."
+        ] },
+        { "block": "callout", "text": "Replace this sample via the admin editor, or generate a first draft from a brief.", "tone": "gold" }
+      ]
+    }
+  ]
+}
