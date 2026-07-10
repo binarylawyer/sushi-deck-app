@@ -48,11 +48,16 @@ Do NOT work in moye-law-os here — that's a separate conversation. moye is only
   (owner `moye-law-os`).
 - Consumers: sushi-deck-app's own front-end (owner `sushi-deck`) and moye-law-os
   `/admin/present/sushi` (owner `moye-law-os`).
+- moye's firm decks render CLIENT-SIDE from its own code registry (data-ownership
+  boundary) — they are NOT in the backend; only the neutral `moye-welcome` sample
+  is stored under owner `moye-law-os`.
 
 ## Candidate next work (confirm priorities first)
-1. Extract the backend into its own deployable (thin API app from `@…/api`, or
-   Supabase Edge Functions) so `sushi-deck-app` becomes purely the sample client
-   — the clean end-state of Option A (see ARCHITECTURE §9).
+1. **Execute the decided 3-repo split (ARCHITECTURE §9):** extract the backend
+   (`src/app/api/**` + store/llm wiring) into a `sushi-deck-backend` repo with its
+   own Vercel project; rename `sushi-deck-app → sushi-deck-client` and
+   `sushi-deck → sushi-deck-kit` (npm name stays `@binarylawyer/sushi-deck`). Repo
+   + Vercel renames are the owner's dashboard actions; the code split is yours.
 2. Editor / authoring UX in the sample client; asset/image storage.
 3. Generation model + cost ceiling; rate-limiting; per-user (vs per-app) tenancy.
 4. Release/versioning: publish the kit properly; keep consumers' installs current
@@ -61,11 +66,16 @@ Do NOT work in moye-law-os here — that's a separate conversation. moye is only
 ## Guardrails
 - Env var NAMES only in chat/docs/commits — never secret values.
 - Develop on a feature branch per repo; open draft PRs.
+- **Data-ownership boundary:** the backend stores only NEUTRAL/product decks. Any
+  client-referencing deck stays in the consumer's own repo/DB and renders
+  client-side — never seed such decks into the shared `decks` table.
 - moye-law-os is out of scope here (it's the other conversation); don't fork the
   backend into it — it consumes the API.
 ```
 
 ---
 
-_Meanwhile, the **moye-law-os** conversation keeps the consumer side: seeding the
-firm's decks through the API and the `/admin/present/sushi` surface._
+_Meanwhile, the **moye-law-os** conversation keeps the consumer side: the
+`/admin/present/sushi` surface renders the firm's decks **client-side** from its
+own code registry — they are NOT seeded into the shared backend, because they
+reference live matters._

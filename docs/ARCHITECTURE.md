@@ -7,7 +7,8 @@
 >
 > **Secrets rule:** this file names **env var NAMES only** — never key values.
 >
-> _Last buttoned-down: 2026-07-10, when the backend went live._
+> _Last updated 2026-07-10: backend live; **data-ownership boundary** codified
+> (client-referencing decks stay client-side); **3-repo split** decided (§9)._
 
 ---
 
@@ -29,14 +30,34 @@
                     └──────────────────────┘   └──────────────────────────────┘
 ```
 
-- **One backend.** All deck data + generation live behind a single HTTP API.
-  Neither front-end touches Supabase or the LLM directly.
-- **Two consumers.** Both are pure API clients that authenticate with a bearer
-  key which resolves to an **`owner`**; the server never trusts a client-supplied
-  tenant. Decks are **owner-scoped** — each consumer only ever sees its own.
+- **One backend — a generic DeckJson engine.** It exposes the HTTP API (store +
+  `POST /api/generate`) and owns the `decks` table + the LLM. It is meant to work
+  with *any* front-end via the DeckJson spec, and it stores only **neutral /
+  product** decks (demos, shared templates).
+- **Consumers own their own data — especially anything client-referencing.** A
+  consumer keeps decks that name its clients/matters on **its own side** and
+  renders them **client-side** via `deckFromJson` — they are *never* seeded into
+  the shared backend (which is co-located with the public sample client). See the
+  **data-ownership boundary** below.
+- **When a consumer does store in the backend**, it authenticates with a bearer
+  key that resolves to an **`owner`**; the server never trusts a client-supplied
+  tenant, and decks are **owner-scoped** (each consumer sees only its own). Reserve
+  this for neutral/non-sensitive content.
 - **Today the backend is *hosted inside* `sushi-deck-app`** (that repo plays two
-  roles: it hosts the API **and** serves the "sample client" front-end). See
-  §7 for the option to extract the backend into its own deployable later.
+  roles: it hosts the API **and** serves the "sample client" front-end). The
+  decided end-state (§9) extracts it into its own repo/deploy.
+
+### Data-ownership boundary — the rule that keeps client data off the shared backend
+
+| | Where it lives | How it renders |
+|---|---|---|
+| **Neutral / product decks** (demos, shared templates) | the backend `decks` table, owner-scoped | fetched from the API |
+| **Client-referencing decks** (name a firm's clients/matters) | the **consumer's own repo/DB** (e.g. `moye-law-os/src/lib/present/sushi/decks/`) | **client-side** via `deckFromJson` — never sent to the backend |
+
+moye's `/admin/present/sushi` follows this: it lists + presents its firm decks
+straight from the code registry, client-side, so matter identifiers (e.g.
+`M-2026-0143`) never reach the shared table. Storing them in the shared backend —
+which the public sample client also reads — would be the wrong boundary.
 
 ---
 
@@ -166,10 +187,13 @@ Errors map to JSON: `422` invalid, `409` conflict, `404` not found, `500`
 - Seeded decks: `product-tour` (owner `sushi-deck`, a full feature showcase) and
   `moye-welcome` (owner `moye-law-os`, a neutral sample).
 - Kit at **v0.7.1**. Deployment Protection OFF. Supabase grant applied.
-- **moye's 5 real firm decks** (estate-audit, patent onboarding, deed-stewardship,
-  document-generation, fiduciary-audit) exist as DeckJson in
-  `moye-law-os/src/lib/present/sushi/decks/` but are **not yet seeded** into the
-  API — that's the next moye-side task.
+- **moye's 5 firm decks** (estate-audit, patent onboarding, deed-stewardship,
+  document-generation, fiduciary-audit) live as DeckJson in
+  `moye-law-os/src/lib/present/sushi/decks/` and render **client-side** on
+  `/admin/present/sushi` (moye PR #820). By design they are **not** seeded into the
+  shared backend — they reference live matters (see the data-ownership boundary in
+  §1). The only `moye-law-os`-owned row in the backend is the neutral
+  `moye-welcome` sample.
 
 ---
 
@@ -185,12 +209,23 @@ This system is now split across **two conversations**:
   **consumer** surface + seeding the firm's decks via the API. Treats the Sushi
   Deck API as an external dependency (this document).
 
-**Guardrail across both:** the Sushi Deck work must not touch moye's live client
-data; the moye work must not fork the backend — it consumes the API.
+**Standing guardrails (both conversations):**
+- Sushi Deck work must not touch moye's live client data.
+- moye must not fork the backend — it consumes the API, and it keeps
+  client-referencing decks **client-side** (never seeded to the shared table; §1).
 
-### Possible next architectural step (for the product conversation)
-Extract the backend into its **own** deployable (a thin API app from `@…/api`, or
-Supabase Edge Functions). Then `sushi-deck-app` becomes purely the **sample
-client**, a true peer of moye, and the "backend hosted inside the sample app"
-dual-role in §1 goes away. Not required today — everything works — but it's the
-clean end-state of Option A.
+### Decided: extract the backend → three clean repos
+
+The chosen end-state (replacing the "backend fused into the sample app" dual role
+in §1) is **three repos**, so backend vs client is unambiguous:
+
+| Concern | Target repo | Vercel project | Today |
+|---|---|---|---|
+| Shared library | `sushi-deck-kit` (npm stays `@binarylawyer/sushi-deck`) | — | `sushi-deck` |
+| Backend (API service) | `sushi-deck-backend` | `sushi-deck-backend` | fused in `sushi-deck-app` |
+| Sample client (front-end) | `sushi-deck-client` | `sushi-deck-client` | `sushi-deck-app` → `sushi-deck-client-app` |
+
+The GitHub repo renames + the new backend repo/Vercel project are **dashboard
+actions**; the code split (extract `src/app/api/**` + store/llm wiring into the
+backend repo) is a task for the product conversation. The **npm package name stays
+`@binarylawyer/sushi-deck`** regardless, so consumers don't break.
