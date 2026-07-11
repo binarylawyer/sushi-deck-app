@@ -7,8 +7,14 @@
 >
 > **Secrets rule:** this file names **env var NAMES only** — never key values.
 >
-> _Last updated 2026-07-10: backend live; **data-ownership boundary** codified
-> (client-referencing decks stay client-side); **3-repo split** decided (§9)._
+> _Last updated 2026-07-11: backend live; **data-ownership boundary** codified
+> (client-referencing decks stay client-side); **3-repo split** decided (§9);
+> **naming sync underway** — the npm package rename **landed** (kit `main` is now
+> `@binarylawyer/sushi-deck-kit` v0.8.0); the client-app import/install PR is open
+> and mergeable. The **GitHub repo + Vercel renames** (`sushi-deck → sushi-deck-kit`,
+> `sushi-deck-app → sushi-deck-client-app`, new `sushi-deck-backend`) are still
+> pending dashboard actions — until then the client-app installs from the current
+> `sushi-deck.git` URL (301-redirects after the repo rename)._
 
 ---
 
@@ -16,7 +22,7 @@
 
 ```
                 ┌──────────────────── BACKEND TIER ────────────────────┐
-                │  @binarylawyer/sushi-deck (library: store·api·generate)│
+                │  @binarylawyer/sushi-deck-kit (store·api·generate)  │
                 │  + Supabase Postgres `decks`   + Claude (LLM)          │
                 │  exposes ONE HTTP API  (key-auth, owner-scoped)        │
                 └───────────────┬───────────────────────┬───────────────┘
@@ -65,19 +71,20 @@ which the public sample client also reads — would be the wrong boundary.
 
 | Repo | Role | Package / deploy name | Former name(s) |
 |---|---|---|---|
-| **`binarylawyer/sushi-deck`** | The **library / kit** — pure, testable deck logic: `runtime`, `json`, `store`, `generate`, `api`, `editor`, `gate`. Published as `@binarylawyer/sushi-deck` (currently **v0.7.1**). | npm pkg `@binarylawyer/sushi-deck` | was **`deck-kit`** |
-| **`binarylawyer/sushi-deck-app`** | The **backend tier + the "sample" consumer front-end**. Hosts the HTTP API (`src/app/api/**`) and serves the gallery/present/scroll/admin UI. | Vercel project **`sushi-deck-client-app`** (⚠️ name ≠ repo name) | — |
+| **`binarylawyer/sushi-deck-kit`** _(rename of `sushi-deck` — pending)_ | The **library / kit** — pure, testable deck logic: `runtime`, `json`, `store`, `generate`, `api`, `editor`, `gate`. Published as `@binarylawyer/sushi-deck-kit` (**v0.8.0** — renamed from `@binarylawyer/sushi-deck`). | npm pkg `@binarylawyer/sushi-deck-kit` | was **`deck-kit`**, then `sushi-deck` |
+| **`binarylawyer/sushi-deck-client-app`** _(rename of `sushi-deck-app` — pending)_ | The **"sample" consumer front-end** (gallery/present/scroll/admin UI). Today it **still also hosts the HTTP API** (`src/app/api/**`); the backend extraction into `sushi-deck-backend` (§9) is the next change. | Vercel project **`sushi-deck-client-app`** (rename makes repo = Vercel name) | — |
+| **`binarylawyer/sushi-deck-backend`** _(new — planned, §9)_ | The **deployed backend API + DB service** — mounts `createDeckHandlers`, owns `decks` + Claude + future form/state. Extracted from the client-app. | Vercel project **`sushi-deck-backend`** | — |
 | **`binarylawyer/moye-law-os`** | The firm OS. Its **`/admin/present/sushi`** surface is **Consumer 2**. Not part of the Sushi Deck product — it just consumes the API. | Vercel project **`moye-law-os`** | — |
 | **`binarylawyer/sushi-kitchen`** | ⚠️ **Unrelated to the deck code.** A separate self-hosted infra monorepo. It only shares a *name* with the Supabase **project** ("Sushi-Kitchen") that happens to host the `decks` table. Do not look here for deck code. | — | — |
 
 **Name gotchas to remember:**
-- The kit repo was renamed `deck-kit → sushi-deck`.
-- The app **repo** is `sushi-deck-app`; its **Vercel project** is `sushi-deck-client-app`. Same thing, two names.
+- The kit repo rename chain is `deck-kit → sushi-deck → sushi-deck-kit`; the npm package is renamed to match (`@binarylawyer/sushi-deck-kit`, v0.8.0).
+- The app **repo** `sushi-deck-app` is being renamed to **`sushi-deck-client-app`** so it matches its existing **Vercel project** `sushi-deck-client-app` (removing the old repo≠project mismatch).
 - "Sushi-Kitchen" is both an (unrelated) **repo** and the **Supabase project** that stores decks. When someone says "Sushi-Kitchen" in the deck context, they mean the **Supabase project**, not the repo.
 
 ---
 
-## 3. The library (`@binarylawyer/sushi-deck`)
+## 3. The library (`@binarylawyer/sushi-deck-kit`)
 
 Pure and unit-tested; the API app and every consumer wire it to infra. Modules
 (subpath exports): `.` (runtime + primitives), `./json` (DeckJson schema + ops +
@@ -87,8 +94,8 @@ Pure and unit-tested; the API app and every consumer wire it to infra. Modules
 (password gate), `./styles.css`.
 
 **How each consumer installs it (they differ — important):**
-- `sushi-deck-app` → from **git**: `"@binarylawyer/sushi-deck": "git+https://github.com/binarylawyer/sushi-deck.git"` (tracks the default branch; redeploy to pull a new version).
-- `moye-law-os` → **vendored tarball**: `"file:vendor/binarylawyer-sushi-deck-0.6.1.tgz"` (offline, `--frozen-lockfile`). moye is only a *consumer* (it uses types + its own HTTP client + `DeckRuntime`/`DeckEditor`), so it does **not** need the in-store owner filter that landed in 0.7.x — re-vendoring to 0.7.1 is optional/cosmetic for moye.
+- `sushi-deck-client-app` → from **git**: `"@binarylawyer/sushi-deck-kit": "git+https://github.com/binarylawyer/sushi-deck.git"` (tracks the default branch; redeploy to pull a new version). The URL still uses the **current** repo name `sushi-deck` — it resolves today and 301-redirects once the repo is renamed to `sushi-deck-kit`; update it to `sushi-deck-kit.git` cosmetically after the rename.
+- `moye-law-os` → **vendored tarball**: `"file:vendor/binarylawyer-sushi-deck-0.6.1.tgz"` (offline, `--frozen-lockfile`) — pinned to the **old** package name `@binarylawyer/sushi-deck`. The rename does **not** break moye: it keeps building on the pinned tarball until it chooses to re-vendor. When it does, it re-vendors as `@binarylawyer/sushi-deck-kit` and updates its imports (moye's own conversation's task).
 
 ---
 
@@ -219,13 +226,24 @@ This system is now split across **two conversations**:
 The chosen end-state (replacing the "backend fused into the sample app" dual role
 in §1) is **three repos**, so backend vs client is unambiguous:
 
-| Concern | Target repo | Vercel project | Today |
-|---|---|---|---|
-| Shared library | `sushi-deck-kit` (npm stays `@binarylawyer/sushi-deck`) | — | `sushi-deck` |
-| Backend (API service) | `sushi-deck-backend` | `sushi-deck-backend` | fused in `sushi-deck-app` |
-| Sample client (front-end) | `sushi-deck-client` | `sushi-deck-client` | `sushi-deck-app` → `sushi-deck-client-app` |
+| Concern | Target repo | npm package | Vercel project | Today |
+|---|---|---|---|---|
+| Shared library | `sushi-deck-kit` | `@binarylawyer/sushi-deck-kit` (v0.8.0) | — | `sushi-deck` |
+| Backend (API service + DB) | `sushi-deck-backend` | — | `sushi-deck-backend` | fused in `sushi-deck-app` |
+| Sample client (front-end) | `sushi-deck-client-app` | — | `sushi-deck-client-app` | `sushi-deck-app` |
+
+**Naming decision (2026-07-11):** all three names align across GitHub, npm, and
+Vercel — including a **rename of the npm package** to `@binarylawyer/sushi-deck-kit`
+(it does *not* "stay" `@binarylawyer/sushi-deck`). Consumers update their import +
+install specs in lockstep; `moye-law-os` is insulated by its pinned tarball (§3).
 
 The GitHub repo renames + the new backend repo/Vercel project are **dashboard
-actions**; the code split (extract `src/app/api/**` + store/llm wiring into the
-backend repo) is a task for the product conversation. The **npm package name stays
-`@binarylawyer/sushi-deck`** regardless, so consumers don't break.
+actions** (no MCP rename tool exists). The code work splits into two waves:
+
+1. **Naming sync** (in progress): rename the package + all imports/install specs.
+   Library PR + client-app PR are open as drafts; they merge **together** with the
+   two GitHub repo renames. The API stays fused in the client-app for this wave.
+2. **Backend extraction** (next): move `src/app/api/**` + store/llm/auth wiring into
+   the new `sushi-deck-backend` repo, make the client a pure API consumer, and
+   stand up the `sushi-deck-backend` Vercel project + env. This is also where the
+   **future form/state persistence** for embedded presentations will live.

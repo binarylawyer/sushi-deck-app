@@ -1,10 +1,14 @@
-# sushi-deck-app
+# sushi-deck-client-app
+
+> Repo renamed `sushi-deck-app → sushi-deck-client-app` (naming sync, 2026-07-11)
+> to match its Vercel project. It still hosts the API today; the backend
+> extraction into `sushi-deck-backend` is the next change (see `docs/ARCHITECTURE.md §9`).
 
 The free-standing **Sushi Deck** product. It hosts the deck **API** (CRUD + AI
 generation, backed by Supabase) and the **front-end** (gallery · present ·
 scroll · print-to-PDF) plus a gated **admin** editor. It consumes the portable
-[`@binarylawyer/sushi-deck`](https://github.com/binarylawyer/sushi-deck) kit —
-this app is just wiring; the deck logic lives in the kit and is unit-tested
+[`@binarylawyer/sushi-deck-kit`](https://github.com/binarylawyer/sushi-deck-kit)
+kit — this app is just wiring; the deck logic lives in the kit and is unit-tested
 there.
 
 It's the first of **two consumers** of one deck API: this app **hosts** the API
@@ -79,5 +83,7 @@ npm run build
 
 - The kit is source-only TypeScript, so it's listed in `transpilePackages`
   (see `next.config.mjs`).
-- Tenancy: `owner` is written on create; read-isolation by owner is not yet
-  enforced by the store, so all decks are visible app-wide for now.
+- Tenancy: `owner` is written on create **and** enforced on read — a
+  `SupabaseDeckStore` built with an `owner` filters every read/write to that
+  owner (kit ≥0.7.0), so each consumer sees only its own decks. See
+  `docs/ARCHITECTURE.md §4`.
