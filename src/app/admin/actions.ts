@@ -1,8 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import type { DeckJson } from "@binarylawyer/sushi-deck/json";
-import type { GenerateInput } from "@binarylawyer/sushi-deck/generate";
+import type { DeckJson } from "@binarylawyer/sushi-deck-kit/json";
+import type { GenerateInput } from "@binarylawyer/sushi-deck-kit/generate";
 import { getDeckClient, type DeckApiClient } from "@/lib/deck-client";
 
 /**

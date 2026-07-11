@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-import type { LlmClient } from "@binarylawyer/sushi-deck/generate";
+import type { LlmClient } from "@binarylawyer/sushi-deck-kit/generate";
 
 const MODEL = process.env.SUSHI_DECK_LLM_MODEL ?? "claude-opus-4-8";
 

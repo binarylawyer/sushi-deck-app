@@ -1,5 +1,5 @@
-import { createDeckHandlers } from "@binarylawyer/sushi-deck/api";
-import { SupabaseDeckStore } from "@binarylawyer/sushi-deck/store";
+import { createDeckHandlers } from "@binarylawyer/sushi-deck-kit/api";
+import { SupabaseDeckStore } from "@binarylawyer/sushi-deck-kit/store";
 import { serviceClient } from "./supabase";
 import { claudeLlm } from "./llm";
 

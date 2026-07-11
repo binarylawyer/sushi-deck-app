@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getDeckClient } from "@/lib/deck-client";
-import type { DeckListItem } from "@binarylawyer/sushi-deck/store";
+import type { DeckListItem } from "@binarylawyer/sushi-deck-kit/store";
 
 export const dynamic = "force-dynamic";
 

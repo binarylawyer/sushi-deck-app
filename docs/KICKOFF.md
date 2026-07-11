@@ -14,8 +14,9 @@ It is a portable, API-driven presentation/slide-deck builder: one HTTP API
 (Supabase `decks` + Claude) with front-ends as pure, owner-scoped API consumers.
 
 ## Bring the repos into scope (clone each inline, one at a time, generous timeout)
-- add_repo binarylawyer/sushi-deck        # the kit/library @binarylawyer/sushi-deck (v0.7.1)
-- add_repo binarylawyer/sushi-deck-app    # the backend tier + the "sample client" front-end
+- add_repo binarylawyer/sushi-deck-kit   # the kit @binarylawyer/sushi-deck-kit (v0.8.0; was sushi-deck)
+- add_repo binarylawyer/sushi-deck-client # backend tier + "sample client" front-end (was sushi-deck-app)
+  # + planned: binarylawyer/sushi-deck-backend (extracted API service — §9)
 
 Do NOT work in moye-law-os here — that's a separate conversation. moye is only a
 *consumer* of this API; never touch its live client data.
@@ -34,9 +35,10 @@ Do NOT work in moye-law-os here — that's a separate conversation. moye is only
   `SUPABASE_URL=https://awomcxrkxtxwkygoschf.supabase.co`; table `public.decks`
   (RLS on, granted to service_role only).
 - Vercel team `team_6ve0UzALDXNZffWnw2WLbHa8`; backend project
-  `sushi-deck-client-app` `prj_HnKd31eFgMIOBpFlJz2ydRs83xIR`
-  (`https://sushi-deck-client-app.vercel.app`). NOTE: repo `sushi-deck-app`
-  deploys as Vercel project `sushi-deck-client-app` (name mismatch).
+  `sushi-deck-client` `prj_HnKd31eFgMIOBpFlJz2ydRs83xIR`. Repo `sushi-deck-client`
+  = Vercel project `sushi-deck-client` (names match). NOTE: the production domain
+  stays `https://sushi-deck-client-app.vercel.app` — a Vercel project rename does
+  NOT rename its `.vercel.app` domain, so the backend URL is unchanged.
 - Kit repo was renamed `deck-kit → sushi-deck`. The repo `binarylawyer/sushi-kitchen`
   is an UNRELATED infra monorepo — not deck code; it only shares a name with the
   Supabase project.
@@ -55,9 +57,11 @@ Do NOT work in moye-law-os here — that's a separate conversation. moye is only
 ## Candidate next work (confirm priorities first)
 1. **Execute the decided 3-repo split (ARCHITECTURE §9):** extract the backend
    (`src/app/api/**` + store/llm wiring) into a `sushi-deck-backend` repo with its
-   own Vercel project; rename `sushi-deck-app → sushi-deck-client` and
-   `sushi-deck → sushi-deck-kit` (npm name stays `@binarylawyer/sushi-deck`). Repo
-   + Vercel renames are the owner's dashboard actions; the code split is yours.
+   own Vercel project. Naming sync is underway (2026-07-11): repos/npm/Vercel align
+   to `sushi-deck-kit` (npm `@binarylawyer/sushi-deck-kit`, v0.8.0),
+   `sushi-deck-backend`, `sushi-deck-client` — the npm package is **renamed**
+   (not kept). Repo + Vercel renames are the owner's dashboard actions; the code
+   split is yours.
 2. Editor / authoring UX in the sample client; asset/image storage.
 3. Generation model + cost ceiling; rate-limiting; per-user (vs per-app) tenancy.
 4. Release/versioning: publish the kit properly; keep consumers' installs current

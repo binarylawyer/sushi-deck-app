@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import {
   verifyGateCookie,
   gateCookieName,
-} from "@binarylawyer/sushi-deck/gate";
+} from "@binarylawyer/sushi-deck-kit/gate";
 import { AdminGate } from "./AdminGate";
 
 export const dynamic = "force-dynamic";

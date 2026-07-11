@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      # The kit (@binarylawyer/sushi-deck) is installed as a git dependency.
+      # The kit (@binarylawyer/sushi-deck-kit) is installed as a git dependency.
       # npm resolves GitHub git deps over SSH by default, which fails on CI
       # runners (no key). Route every git URL form to HTTPS. If KIT_TOKEN (a PAT
       # with read access to the private kit) is set, authenticate; otherwise use
