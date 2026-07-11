@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import type { DeckListItem } from "@binarylawyer/sushi-deck/store";
+import type { DeckListItem } from "@binarylawyer/sushi-deck-kit/store";
 import { starterDeck } from "@/lib/starter";
 import {
   createDeckAction,

@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { DeckEditor } from "@binarylawyer/sushi-deck/editor";
-import "@binarylawyer/sushi-deck/styles.css";
-import type { DeckJson } from "@binarylawyer/sushi-deck/json";
+import { DeckEditor } from "@binarylawyer/sushi-deck-kit/editor";
+import "@binarylawyer/sushi-deck-kit/styles.css";
+import type { DeckJson } from "@binarylawyer/sushi-deck-kit/json";
 import { saveDeckAction } from "../actions";
 
 export function EditorClient({

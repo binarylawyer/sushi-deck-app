@@ -1,8 +1,8 @@
 import "server-only";
 
-import type { DeckJson } from "@binarylawyer/sushi-deck/json";
-import type { StoredDeck, DeckListItem } from "@binarylawyer/sushi-deck/store";
-import type { GenerateInput } from "@binarylawyer/sushi-deck/generate";
+import type { DeckJson } from "@binarylawyer/sushi-deck-kit/json";
+import type { StoredDeck, DeckListItem } from "@binarylawyer/sushi-deck-kit/store";
+import type { GenerateInput } from "@binarylawyer/sushi-deck-kit/generate";
 
 /**
  * Server-side client for the Sushi Deck HTTP API.

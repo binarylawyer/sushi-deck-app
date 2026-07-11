@@ -1,9 +1,9 @@
 "use client";
 
-import { ScrollView } from "@binarylawyer/sushi-deck";
-import { deckFromJson } from "@binarylawyer/sushi-deck/json";
-import type { DeckJson } from "@binarylawyer/sushi-deck/json";
-import "@binarylawyer/sushi-deck/styles.css";
+import { ScrollView } from "@binarylawyer/sushi-deck-kit";
+import { deckFromJson } from "@binarylawyer/sushi-deck-kit/json";
+import type { DeckJson } from "@binarylawyer/sushi-deck-kit/json";
+import "@binarylawyer/sushi-deck-kit/styles.css";
 
 export function ScrollClient({ deck, slug }: { deck: DeckJson; slug: string }) {
   return (
