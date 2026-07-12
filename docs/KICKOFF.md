@@ -14,7 +14,7 @@ It is a portable, API-driven presentation/slide-deck builder: one HTTP API
 (Supabase `decks` + Claude) with front-ends as pure, owner-scoped API consumers.
 
 ## Bring the repos into scope (clone each inline, one at a time, generous timeout)
-- add_repo binarylawyer/sushi-deck   # the kit @binarylawyer/sushi-deck (v0.9.1)
+- add_repo binarylawyer/sushi-deck-kit  # the kit @binarylawyer/sushi-deck-kit (v0.9.2)
 - add_repo binarylawyer/sushi-deck-client # sample-client front-end (was sushi-deck-app)
   # + planned: binarylawyer/sushi-deck-backend (extracted API service — §9)
 
@@ -39,7 +39,7 @@ Do NOT work in moye-law-os here — that's a separate conversation. moye is only
   = Vercel project `sushi-deck-client` (names match). NOTE: the production domain
   stays `https://sushi-deck-client-app.vercel.app` — a Vercel project rename does
   NOT rename its `.vercel.app` domain, so the backend URL is unchanged.
-- Kit repo was renamed `deck-kit → sushi-deck`. The repo `binarylawyer/sushi-kitchen`
+- Kit repo renamed `deck-kit → sushi-deck → sushi-deck-kit`. The repo `binarylawyer/sushi-kitchen`
   is an UNRELATED infra monorepo — not deck code; it only shares a name with the
   Supabase project.
 
@@ -57,8 +57,8 @@ Do NOT work in moye-law-os here — that's a separate conversation. moye is only
 ## Candidate next work (confirm priorities first)
 1. **Execute the decided 3-repo split (ARCHITECTURE §9) — IN PROGRESS:** extract the
    backend (`src/app/api/**` + store/llm wiring) into a `sushi-deck-backend` repo with
-   its own Vercel project. Final names (2026-07-12): kit `sushi-deck`
-   (npm `@binarylawyer/sushi-deck`, v0.9.1 — **name kept**), `sushi-deck-client` (done),
+   its own Vercel project. Final names (2026-07-12): kit `sushi-deck-kit`
+   (npm `@binarylawyer/sushi-deck-kit`, v0.9.2 — **permanent**), `sushi-deck-client` (done),
    `sushi-deck-backend` (new). The new repo + Vercel project are the owner's dashboard
    actions; the code split is yours.
 2. Editor / authoring UX in the sample client; asset/image storage.

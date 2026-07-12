@@ -7,7 +7,7 @@
 The free-standing **Sushi Deck** product. It hosts the deck **API** (CRUD + AI
 generation, backed by Supabase) and the **front-end** (gallery · present ·
 scroll · print-to-PDF) plus a gated **admin** editor. It consumes the portable
-[`@binarylawyer/sushi-deck`](https://github.com/binarylawyer/sushi-deck)
+[`@binarylawyer/sushi-deck-kit`](https://github.com/binarylawyer/sushi-deck-kit)
 kit — this app is just wiring; the deck logic lives in the kit and is unit-tested
 there.
 

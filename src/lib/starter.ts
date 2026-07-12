@@ -1,4 +1,4 @@
-import type { DeckJson } from "@binarylawyer/sushi-deck/json";
+import type { DeckJson } from "@binarylawyer/sushi-deck-kit/json";
 
 /** A minimal starter deck for "New blank deck". */
 export function starterDeck(title = "Untitled deck"): DeckJson {
