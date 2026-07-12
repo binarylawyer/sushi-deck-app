@@ -3,7 +3,7 @@ import {
   verifyPassword,
   signGateCookie,
   gateCookieName,
-} from "@binarylawyer/sushi-deck-kit/gate";
+} from "@binarylawyer/sushi-deck/gate";
 
 export const runtime = "nodejs";
 
