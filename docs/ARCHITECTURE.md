@@ -94,8 +94,8 @@ Pure and unit-tested; the API app and every consumer wire it to infra. Modules
 (password gate), `./styles.css`.
 
 **How each consumer installs it (they differ — important):**
-- `sushi-deck-client` → from **git**: `"@binarylawyer/sushi-deck-kit": "git+https://github.com/binarylawyer/sushi-deck-kit.git"` (tracks the default branch; redeploy to pull a new version). Repo name is final (`sushi-deck-kit`), so this URL is stable.
-- `moye-law-os` → **vendored tarball**: `"file:vendor/binarylawyer-sushi-deck-0.6.1.tgz"` (offline, `--frozen-lockfile`) — pinned to the **old** package name `@binarylawyer/sushi-deck`. The kit rename does **not** break moye: it keeps building on the pinned tarball until it chooses to re-vendor. When it does, it re-vendors as `@binarylawyer/sushi-deck-kit` and updates its imports.
+- `sushi-deck-client` → from **git**: `"@binarylawyer/sushi-deck-kit": "git+https://github.com/binarylawyer/sushi-deck-kit.git"` (tracks the default branch; redeploy to pull a new version). Points at the current repo name `sushi-deck-kit`.
+- `moye-law-os` → **vendored tarball**: `"file:vendor/binarylawyer-sushi-deck-kit-0.9.0.tgz"` (offline, `--frozen-lockfile`) — pinned to `@binarylawyer/sushi-deck-kit@0.9.0`. The vendored copy is self-contained, so moye is unaffected by kit or repo changes until it chooses to re-vendor.
 
 ---
 
